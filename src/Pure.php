@@ -145,11 +145,6 @@ class Pure
         return $this;
     }
 
-    final public static function __callStatic($tag, $args): self
-    {
-        return new self($tag);
-    }
-
     private function getSeparator($key): string
     {
         switch ($key) {
@@ -169,7 +164,7 @@ class Pure
         return \ob_get_clean();
     }
 
-    public static function create(...$args): self
+    public static function _(...$args): self
     {
         return new static(...$args);
     }
