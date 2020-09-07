@@ -15,10 +15,7 @@
   "autoload": {
     "optimize-autoloader": true,
     "psr-4": {
-      "Pure\\": "/src",
-      "classmap": [
-        "Generic"
-      ]
+      "Pure\\": "/src"
     }
   }
 }
