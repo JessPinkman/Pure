@@ -1,8 +1,20 @@
 {
   "name": "jesspinkman/pure",
+  "type": "library",
   "license": "MIT",
-  "description": "A short description of what your package does",
+  "description": "Create HTML Markups without HTML code, easily nest elements and set attributes",
   "require": {
     "php": "^7.2"
+  },
+  "authors": [
+    {
+      "name": "Serge Goncalves",
+      "email": "serge.goncalves@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Pure\\": "/src"
+    }
   }
 }
