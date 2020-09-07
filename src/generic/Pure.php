@@ -88,6 +88,10 @@ class Pure
 
     public function openingStatement(): string
     {
+        if ($this->self_closure) {
+            throw new Error("openingStatement should not be called on $this->rob_tag : self closing tag");
+        }
+
         $html = "<$this->rob_tag";
 
         if (!empty($this->attributes)) {
@@ -101,13 +105,17 @@ class Pure
             }
         }
 
-        if ($this->self_closure) {
-            $html .= "/>";
-        } else {
-            $html .= ">";
-        }
+        $html .= ">";
 
         return $html;
+    }
+
+    public function closingStatement(): string
+    {
+        if ($this->self_closure) {
+            throw new Error("closingStatement should not be called on $this->rob_tag : self closing tag");
+        }
+        return "</$this->rob_tag>";
     }
 
     public function __toString()
@@ -118,7 +126,9 @@ class Pure
             foreach ($this->children as $element) {
                 $html .=  $element;
             }
-            $html .= "</$this->rob_tag>";
+            $html .= $this->closingStatement();
+        } else {
+            $html .= "/>";
         }
 
         return $html;
