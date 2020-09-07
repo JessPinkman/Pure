@@ -86,12 +86,8 @@ class Pure
         $this->append(\ob_get_clean());
     }
 
-    public function openingStatement(): string
+    public function __toString()
     {
-        if ($this->self_closure) {
-            throw new Error("openingStatement should not be called on $this->rob_tag : self closing tag");
-        }
-
         $html = "<$this->rob_tag";
 
         if (!empty($this->attributes)) {
@@ -105,30 +101,16 @@ class Pure
             }
         }
 
-        $html .= ">";
 
-        return $html;
-    }
-
-    public function closingStatement(): string
-    {
         if ($this->self_closure) {
-            throw new Error("closingStatement should not be called on $this->rob_tag : self closing tag");
-        }
-        return "</$this->rob_tag>";
-    }
-
-    public function __toString()
-    {
-        $html = $this->openingStatement();
-
-        if (!$this->self_closure) {
+            $html .= "/>";
+        } else {
+            $html .= ">";
             foreach ($this->children as $element) {
                 $html .=  $element;
             }
             $html .= $this->closingStatement();
-        } else {
-            $html .= "/>";
+            $html .= "</$this->rob_tag>";
         }
 
         return $html;
