@@ -2,7 +2,7 @@
 
 namespace pure\src\WordPress;
 
-use pure\src\Pure;
+use Pure\Pure;
 
 class WPImg extends Pure
 {

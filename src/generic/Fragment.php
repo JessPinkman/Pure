@@ -1,8 +1,8 @@
 <?php
 
-namespace pure\src\Generic;
+namespace Pure\Generic;
 
-use pure\src\Pure;
+use Pure\Pure;
 
 class Fragment extends Pure
 {

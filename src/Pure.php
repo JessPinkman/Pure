@@ -1,10 +1,10 @@
 <?php
 
-namespace pure\src;
+namespace Pure;
 
 use Closure;
 use Error;
-use pure\src\Generic\Fragment;
+use Pure\Generic\Fragment;
 
 /**
  * Class to create markup elements that can be structured with nesting.
