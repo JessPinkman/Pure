@@ -1,6 +1,6 @@
 <?php
 
-namespace Pure;
+namespace Pure\Generic;
 
 use Closure;
 use Error;

@@ -2,7 +2,7 @@
 
 namespace Pure\Generic;
 
-use Pure\Pure;
+use Pure\Generic\Pure;
 
 class Fragment extends Pure
 {

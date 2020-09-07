@@ -2,7 +2,7 @@
 
 namespace Pure\Generic;
 
-use Pure\Pure;
+use Pure\generic\Pure;
 
 class Html extends Pure
 {
