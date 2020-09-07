@@ -13,8 +13,12 @@
     }
   ],
   "autoload": {
+    "optimize-autoloader": true,
     "psr-4": {
-      "Pure\\": "/src"
+      "Pure\\": "/src",
+      "classmap": [
+        "Generic"
+      ]
     }
   }
 }
