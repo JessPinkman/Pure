@@ -4,7 +4,7 @@ namespace Pure\Generic;
 
 use Pure\Pure;
 
-class HTML extends Pure
+class Html extends Pure
 {
 
     public function __construct()
