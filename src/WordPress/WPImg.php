@@ -1,6 +1,6 @@
 <?php
 
-namespace pure\src\wordpress;
+namespace pure\src\WordPress;
 
 use pure\src\Pure;
 

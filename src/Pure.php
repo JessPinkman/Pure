@@ -4,7 +4,7 @@ namespace pure\src;
 
 use Closure;
 use Error;
-use pure\src\generic\Fragment;
+use pure\src\Generic\Fragment;
 
 /**
  * Class to create markup elements that can be structured with nesting.

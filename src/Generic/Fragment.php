@@ -1,6 +1,6 @@
 <?php
 
-namespace pure\src\generic;
+namespace pure\src\Generic;
 
 use pure\src\Pure;
 
