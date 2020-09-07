@@ -86,10 +86,9 @@ class Pure
         $this->append(\ob_get_clean());
     }
 
-    public function __toString()
+    public function openingStatement(): string
     {
-        $tag = $this->rob_tag;
-        $html = "<$tag";
+        $html = "<$this->rob_tag";
 
         if (!empty($this->attributes)) {
             foreach ($this->attributes as $key => $val) {
@@ -106,10 +105,20 @@ class Pure
             $html .= "/>";
         } else {
             $html .= ">";
+        }
+
+        return $html;
+    }
+
+    public function __toString()
+    {
+        $html = $this->openingStatement();
+
+        if (!$this->self_closure) {
             foreach ($this->children as $element) {
                 $html .=  $element;
             }
-            $html .= "</$tag>";
+            $html .= "</$this->rob_tag>";
         }
 
         return $html;
