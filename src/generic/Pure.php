@@ -169,6 +169,11 @@ class Pure
         return new static(...$args);
     }
 
+    public function __invoke(...$children)
+    {
+        $this->append($children);
+    }
+
     public static function fragment(...$children): Fragment
     {
         return new Fragment(...$children);
