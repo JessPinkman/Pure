@@ -13,7 +13,6 @@
     }
   ],
   "autoload": {
-    "optimize-autoloader": true,
     "psr-4": {
       "Pure\\": "/src"
     }
