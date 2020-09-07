@@ -109,7 +109,6 @@ class Pure
             foreach ($this->children as $element) {
                 $html .=  $element;
             }
-            $html .= $this->closingStatement();
             $html .= "</$this->rob_tag>";
         }
 
