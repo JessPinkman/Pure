@@ -195,4 +195,9 @@ class Pure
     {
         echo "</$this->pure_tag>";
     }
+
+    public static function getComment(string $comment): string
+    {
+        return '<!--' . $comment . '-->';
+    }
 }
