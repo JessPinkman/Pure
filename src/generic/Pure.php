@@ -36,7 +36,7 @@ class Pure
 
     private $self_closure = false;
 
-    private $rob_tag;
+    private $pure_tag;
 
     protected $attributes = [];
 
@@ -49,13 +49,13 @@ class Pure
             $this->self_closure = true;
         }
 
-        $this->rob_tag = $tag;
+        $this->pure_tag = $tag;
     }
 
     public function append(...$children)
     {
         if ($this->self_closure) {
-            $tag = $this->rob_tag;
+            $tag = $this->pure_tag;
             throw new Error("Cannot append child to self closing elements $tag");
         }
 
@@ -79,7 +79,7 @@ class Pure
         return $this;
     }
 
-    public function robBuffer(callable $func)
+    public function pureBuffer(callable $func)
     {
         \ob_start();
         \call_user_func($func);
@@ -88,7 +88,7 @@ class Pure
 
     public function __toString()
     {
-        $html = "<$this->rob_tag";
+        $html = "<$this->pure_tag";
 
         if (!empty($this->attributes)) {
             foreach ($this->attributes as $key => $val) {
@@ -109,7 +109,7 @@ class Pure
             foreach ($this->children as $element) {
                 $html .=  $element;
             }
-            $html .= "</$this->rob_tag>";
+            $html .= "</$this->pure_tag>";
         }
 
         return $html;
@@ -182,5 +182,17 @@ class Pure
     public function echo()
     {
         echo $this;
+    }
+
+    public function startEcho()
+    {
+        $string = $this->__toString();
+        $marker = strpos($string, '>') + 1;
+        echo \substr($string, 0, $marker);
+    }
+
+    public function endEcho()
+    {
+        echo "</$this->pure_tag>";
     }
 }
