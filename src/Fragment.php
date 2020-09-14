@@ -1,10 +1,8 @@
 <?php
 
-namespace Pure\Generic;
+namespace Pure;
 
-use Pure\Generic\Pure;
-
-class Fragment extends Pure
+class Fragment extends Component
 {
 
     public function __construct(...$children)

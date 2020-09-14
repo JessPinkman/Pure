@@ -1,10 +1,10 @@
 <?php
 
-namespace Pure\Generic;
+namespace Pure;
 
 use Closure;
 use Error;
-use Pure\Generic\Fragment;
+use Pure\Fragment;
 
 /**
  * Class to create markup elements that can be structured with nesting.
@@ -15,7 +15,7 @@ use Pure\Generic\Fragment;
  * @author: Serge Goncalves
  * @version 1.0.0
  */
-class Pure
+class Component
 {
 
     protected static $self_closure_tags = [
@@ -43,7 +43,7 @@ class Pure
     protected $children = [];
 
 
-    public function __construct(string $tag = 'div')
+    public function __construct(string $tag)
     {
         if (in_array($tag, self::$self_closure_tags)) {
             $this->self_closure = true;
@@ -52,7 +52,7 @@ class Pure
         $this->pure_tag = $tag;
     }
 
-    public function append(...$children)
+    public function append(...$children): self
     {
         if ($this->self_closure) {
             $tag = $this->pure_tag;
@@ -79,14 +79,7 @@ class Pure
         return $this;
     }
 
-    public function pureBuffer(callable $func)
-    {
-        \ob_start();
-        \call_user_func($func);
-        $this->append(\ob_get_clean());
-    }
-
-    public function __toString()
+    public function __toString(): string
     {
         $html = "<$this->pure_tag";
 
@@ -157,47 +150,26 @@ class Pure
         }
     }
 
-    public static function getBuffer(callable $func, ...$args): string
-    {
-        ob_start();
-        \call_user_func($func, ...$args);
-        return \ob_get_clean();
-    }
-
-    public static function _(...$args): self
-    {
-        return new static(...$args);
-    }
-
-    public function __invoke(...$children)
+    public function __invoke(...$children): self
     {
         $this->append($children);
+        return $this;
     }
 
-    public static function fragment(...$children): Fragment
-    {
-        return new Fragment(...$children);
-    }
-
-    public function echo()
+    public function echo(): void
     {
         echo $this;
     }
 
-    public function startEcho()
+    public function pureOpen(): string
     {
         $string = $this->__toString();
         $marker = strpos($string, '>') + 1;
-        echo \substr($string, 0, $marker);
+        return \substr($string, 0, $marker);
     }
 
-    public function endEcho()
+    public function pureClose(): string
     {
-        echo "</$this->pure_tag>";
-    }
-
-    public static function getComment(string $comment): string
-    {
-        return '<!--' . $comment . '-->';
+        return "</$this->pure_tag>";
     }
 }
