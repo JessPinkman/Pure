@@ -83,14 +83,13 @@ class Component
     {
         $html = "<$this->pure_tag";
 
-        if (!empty($this->attributes)) {
-            foreach ($this->attributes as $key => $val) {
-                if (true === $val) {
-                    $html .= " $key ";
-                } else {
-                    $val = htmlspecialchars($val, \ENT_QUOTES, 'UTF-8', false);
-                    $html .= " $key='$val' ";
-                }
+        foreach ($this->attributes as $key => $val) {
+            if (empty($val)) {
+                $html .= " $key ";
+            } else {
+                $values = \implode($this->getSeparator($key), $val);
+                $values = htmlspecialchars($values, \ENT_QUOTES, 'UTF-8', false);
+                $html .= " $key='$values' ";
             }
         }
 
@@ -112,28 +111,23 @@ class Component
     {
         $key = str_replace('_', '-', $key);
 
-        foreach ($args as $arg) {
-            if (!\is_string($arg) && !\is_array($arg) && !\is_bool($arg) && !is_null($arg) && !\is_numeric($arg)) {
+        if (!isset($this->attributes[$key])) {
+            $this->attributes[$key] = [];
+        }
+
+        \array_walk_recursive($args, function ($arg) use ($key) {
+            if (!\is_string($arg) && !\is_bool($arg) && !is_null($arg) && !\is_numeric($arg)) {
                 $type =  gettype($arg);
                 throw new Error(
                     "Error on $key attribute: must be a string, an array, a bool, or null, received $type"
                 );
             }
-            if (is_array($arg)) {
-                $arg = explode($this->getSeparator($key), $arg);
-            }
             if (false === $arg) {
-                if (isset($this->attributes[$key])) {
-                    unset($this->attributes[$key]);
-                }
-            } else {
-                if (!isset($this->attributes[$key])) {
-                    $this->attributes[$key] = $arg;
-                } else {
-                    $this->attributes[$key] .= $this->getSeparator($key) . $arg;
-                }
+                unset($this->attributes[$key]);
+            } elseif (!is_null($arg)) {
+                $this->attributes[$key][] = $arg;
             }
-        }
+        });
 
         return $this;
     }
