@@ -32,7 +32,8 @@ use Pure\Pure;
 echo Pure::h3()
     ->id('my-first-pure-component')
     ->class('badge badge-primary')
-    ->my_custom_prop(true)
+    ->my_custom_prop('pure')
+    ->disabled(true)
     ->append('Hello World!');
 
 ```
@@ -43,7 +44,7 @@ echo Pure::h3()
 <h3
   id="my-first-pure-component"
   class="badge badge-primary"
-  my-custom-prop="robel-is-awesome"
+  my-custom-prop="pure"
 >
   Hello World!
 </h3>
