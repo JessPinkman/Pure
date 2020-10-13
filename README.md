@@ -13,7 +13,9 @@ There are two main classes:
 
 ## Pure\Component
 
-    This is the class that abstracts an html markup element, you combine them to create your html, use magic calls to define the markup attributes
+    This is the class that abstracts an html markup element
+    you combine them to create your html
+    use magic calls to define the markup attributes
 
 ## Pure\Pure
 
@@ -173,32 +175,42 @@ echo Pure::div()
 
 ###### output
 
-<div class="product__grid">
-    <article class="product__tile" data-product-id="3">
-        <h1 class="product__tile_title">Blue Sweater</h1>
-        <img class="product__tile_img" src="/uploads/product-3.jpg" alt="Blue Sweater" />
-        <span class="product__tile_price tag product__tile_price--promotion">
-            USD 39
-        </span>
-    </article>
-    <article class="product__tile" data-product-id="7">
-        <h1 class="product__tile_title">Red Dress</h1>
-        <img class="product__tile_img" src="/uploads/product-7.jpg" alt="Red Dress" />
-        <span class="product__tile_price tag product__tile_price--no-promotion">
-            USD 59
-        </span>
-    </article>
-    <article class="product__tile" data-product-id="17">
-        <h1 class="product__tile_title">Grey Fedora</h1>
-        <img class="product__tile_img" src="/uploads/product-17.jpg" alt="Grey Fedora" />
-        <span class="product__tile_price tag product__tile_price--no-promotion">
-            USD 40
-        </span>
-    </article>
-</div>
-
 ```html
-
+<div class="product__grid">
+  <article class="product__tile" data-product-id="3">
+    <h1 class="product__tile_title">Blue Sweater</h1>
+    <img
+      class="product__tile_img"
+      src="/uploads/product-3.jpg"
+      alt="Blue Sweater"
+    />
+    <span class="product__tile_price tag product__tile_price--promotion">
+      USD 39
+    </span>
+  </article>
+  <article class="product__tile" data-product-id="7">
+    <h1 class="product__tile_title">Red Dress</h1>
+    <img
+      class="product__tile_img"
+      src="/uploads/product-7.jpg"
+      alt="Red Dress"
+    />
+    <span class="product__tile_price tag product__tile_price--no-promotion">
+      USD 59
+    </span>
+  </article>
+  <article class="product__tile" data-product-id="17">
+    <h1 class="product__tile_title">Grey Fedora</h1>
+    <img
+      class="product__tile_img"
+      src="/uploads/product-17.jpg"
+      alt="Grey Fedora"
+    />
+    <span class="product__tile_price tag product__tile_price--no-promotion">
+      USD 40
+    </span>
+  </article>
+</div>
 ```
 
 And build from here even more complexe structures...
