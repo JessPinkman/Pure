@@ -33,7 +33,6 @@ echo Pure::h3()
     ->id('my-first-pure-component')
     ->class('badge badge-primary')
     ->my_custom_prop('pure')
-    ->disabled(true)
     ->append('Hello World!');
 
 ```
