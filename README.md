@@ -137,38 +137,38 @@ class ProductView extends Component
 
     public function __construct(int $id)
     {
-        parent::__construct('article');
         $product = new Product($id); //instance of a product (for illustration only)
+        parent::__construct('article'); // create component with article markup
         $this
-            ->class('product__tile')
-            ->data_product_id($id)
-            ->append(
-                Pure::h1()
+            ->class('product__tile')    //add class
+            ->data_product_id($id)      //add custom attribute
+            ->append(                   //append children
+                Pure::h1()              //first child, the title
                     ->class('product__tile_title')
                     ->append($product->getName()),
-                Pure::img()
+                Pure::img()             //second child, the image
                     ->class('product__tile_img')
                     ->src($product->getImageURL())
                     ->alt($product->getName()),
-                Pure::span()
+                Pure::span()            //third child, the price
                     ->class('product__tile_price tag')
-                    ->class($product->has_promotion() ? 'product__tile_price--promotion' : 'product__tile_price--no-promotion')
+                    ->class($product->has_promotion() ? 'product__tile_price--promotion' : 'product__tile_price--no-promotion') //conditionally load class
                     ->append("USD $product->price"),
             );
     }
 }
 
-//append also works with arrays, callables, stringable types
+echo Pure::div()                                //create higher div
+    ->class('product__grid')                    //assign class
+    ->append( function () {              //append children (also accepts callables)
 
-echo Pure::div()
-    ->class('product__grid')
-    ->append( function (): array {
-        $products = Product::getProductIDList(); //for example [3, 7, 17]
+        $products = Product::getProductIDList(); //for illustration, product list [3, 7, 17]
 
-        return array_map(function ($prod_id): Component {
+        $views = array_map(function ($prod_id): Component {
             return new ProductView($id);
         }, $products);
 
+        return $views;
     });
 
 ```
