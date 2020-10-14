@@ -4,7 +4,6 @@ namespace Pure;
 
 use Closure;
 use Error;
-use Pure\Fragment;
 
 /**
  * Class to create markup elements that can be structured with nesting.
@@ -165,5 +164,10 @@ class Component
     public function pureClose(): string
     {
         return "</$this->pure_tag>";
+    }
+
+    public static function render(...$args)
+    {
+        return new static(...$args);
     }
 }

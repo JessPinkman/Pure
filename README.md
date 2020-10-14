@@ -135,41 +135,45 @@ use YourProject\Namespace\Product;
 class ProductView extends Component
 {
 
-    public function __construct(int $id)
+    public function __construct(array $product)
     {
-        $product = new Product($id); //instance of a product (for illustration only)
-        parent::__construct('article'); // create component with article markup
+        parent::__construct('article');             // create component with article markup
         $this
-            ->class('product__tile')    //add class
-            ->data_product_id($id)      //add custom attribute
-            ->append(                   //append children
-                Pure::h1()              //first child, the title
+            ->class('product__tile')                //add class
+            ->data_product_id($product['id'])       //add custom attribute
+            ->append(
+                Pure::h1()                          //first child, the title
                     ->class('product__tile_title')
-                    ->append($product->getName()),
-                Pure::img()             //second child, the image
+                    ->append($product['name']),
+                Pure::img()                         //second child, the image
                     ->class('product__tile_img')
-                    ->src($product->getImageURL())
-                    ->alt($product->getName()),
-                Pure::span()            //third child, the price
+                    ->src($product['imgURL'])
+                    ->alt($product['name']),
+                Pure::span()                        //third child, the price
                     ->class('product__tile_price tag')
-                    ->class($product->has_promotion() ? 'product__tile_price--promotion' : 'product__tile_price--no-promotion') //conditionally load class
+                    ->class($product['promotion'] ? 'product__tile_price--promotion' : 'product__tile_price--no-promotion') //conditionally load class
                     ->append("USD $product->price"),
             );
     }
 }
 
-echo Pure::div()                                //create higher div
-    ->class('product__grid')                    //assign class
-    ->append( function () {              //append children (also accepts callables)
+class GridView extends Component
+{
+    public function __construct(array $products)
+    {
+        parent::__construct('div');
+        $this->id('product__grid');
 
-        $products = Product::getProductIDList(); //for illustration, product list [3, 7, 17]
+        foreach ($products as $product) {
+            $this->append( new ProductTileView($product));
+        }
+    }
+}
 
-        $views = array_map(function ($prod_id): Component {
-            return new ProductView($id);
-        }, $products);
 
-        return $views;
-    });
+//Example of MVC implementation, with your personal controller to redirect http requests
+$products = Product::getProductList();//array of products with product information
+ProjectViewController::page('product-catalogue')->render(GridView::class, $products);
 
 ```
 
@@ -213,4 +217,13 @@ echo Pure::div()                                //create higher div
 </div>
 ```
 
+### MVC model
+
+    In practice, it recommended to separate views and controllers.
+
+```php
+
+//Controller file
+
 And build from here even more complexe structures...
+```
