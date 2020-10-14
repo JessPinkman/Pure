@@ -133,7 +133,7 @@ echo Pure::form()
 </form>
 ```
 
-### Advacned example
+### Advanced example
 
 let's create different reusable components (views)
 
