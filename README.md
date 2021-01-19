@@ -110,11 +110,11 @@ class Option extends Component
 echo Pure::form()
     ->id('select-form')
     ->append(
-        Select::render('user-preference', [
-            Option::render( 'Select your preference', null, true ),
-            Option::render( 'A is the best', 'a' ),
-            Option::render( 'B is better', 'b' ),
-            Option::render( 'C is amazing', 'c' )
+        new Select('user-preference', [
+            new Option( 'Select your preference', null, true ),
+            new Option( 'A is the best', 'a' ),
+            new Option( 'B is better', 'b' ),
+            new Option( 'C is amazing', 'c' )
         ]);
     );
 
@@ -150,11 +150,11 @@ class DefaultPageView extends Component
     {
         parent::__construct('html');
         $this->append(
-            PageHead::render(),
+            new PageHead(),
             Pure::body(
-                HeaderView::render(),
+                new HeaderView(),
                 Pure::main($inner_content),
-                FooterView::render()
+                new FooterView()
             )
         );
     }
@@ -220,12 +220,9 @@ class ProductView extends Component
 
 //to use inside your view controller
 $products = Product::getProductList();
-$product_views = array_map(fn ($product) => ProductView::render($product), $products);
+$product_views = array_map(fn ($single) => new ProductView($single), $products);
 
-echo DefaultPageView::render(
-    GridView::render( $product_views)
-);
-
+echo new DefaultPageView(new GridView($product_views));
 
 ```
 

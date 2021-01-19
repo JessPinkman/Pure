@@ -12,7 +12,6 @@ use Error;
  *
  *
  * @author: Serge Goncalves
- * @version 1.0.0
  */
 class Component
 {
