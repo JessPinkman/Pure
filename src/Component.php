@@ -67,7 +67,7 @@ class Component
                     return;
                 }
 
-                if (!is_string((string) $child)) {
+                if (!$this->pureStringCheck($child)) {
                     throw new Error('Can only append strings / convertible to string');
                 } else {
                     $this->children[] = $child;
@@ -168,5 +168,10 @@ class Component
     public static function render(...$args)
     {
         return new static(...$args);
+    }
+
+    protected function pureStringCheck($item): bool
+    {
+        return is_string((string) $item);
     }
 }
