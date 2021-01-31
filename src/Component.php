@@ -130,6 +130,15 @@ class Component
         return $this;
     }
 
+    protected function setAttrs(array $attrs): self
+    {
+        foreach ($attrs as $attr => $val) {
+            $this->$attr($val);
+        }
+
+        return $this;
+    }
+
     private function getSeparator($key): string
     {
         switch ($key) {
