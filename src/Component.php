@@ -34,7 +34,7 @@ class Component
 
     private $self_closure = false;
 
-    private $pure_tag;
+    public $pure_tag;
 
     protected $attributes = [];
 
@@ -43,11 +43,7 @@ class Component
 
     public function __construct(string $tag)
     {
-        if (in_array($tag, self::$self_closure_tags)) {
-            $this->self_closure = true;
-        }
-
-        $this->pure_tag = $tag;
+        $this->setPureTag($tag);
     }
 
     public function append(...$children): self
@@ -103,6 +99,20 @@ class Component
         }
 
         return $html;
+    }
+
+    public function setPureTag(string $tag): self
+    {
+        $this->pure_tag = $tag;
+
+        if (in_array($tag, self::$self_closure_tags)) {
+            $this->self_closure = true;
+            if (!empty($this->children)) {
+                throw new Error("Cannot append child to self closing elements $tag");
+            }
+        }
+
+        return $this;
     }
 
     public function __call($key, $args): self
