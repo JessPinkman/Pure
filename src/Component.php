@@ -191,6 +191,6 @@ class Component
 
     protected function pureStringCheck($item): bool
     {
-        return is_string((string) $item);
+        return $item instanceof Component || is_string((string) $item);
     }
 }
