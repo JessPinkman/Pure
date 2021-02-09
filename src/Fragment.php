@@ -2,6 +2,8 @@
 
 namespace Pure;
 
+use Error;
+
 class Fragment extends Component
 {
 
@@ -20,5 +22,11 @@ class Fragment extends Component
         }
 
         return $html;
+    }
+
+    public function __call($key, $args): self
+    {
+        throw new Error("method $key not found, cannot set attributes for Fragments");
+        return $this;
     }
 }
