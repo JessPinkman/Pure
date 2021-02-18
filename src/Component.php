@@ -46,6 +46,10 @@ class Component
         $this->setPureTag($tag);
     }
 
+    /**
+     *
+     * @deprecated
+     */
     public function append(...$children): self
     {
         if ($this->self_closure) {
@@ -59,7 +63,34 @@ class Component
 
                 if ($child instanceof Closure) {
                     $child = \call_user_func($child);
-                    $this->append($child);
+                    $this->___($child);
+                    return;
+                }
+
+                if (!$this->pureStringCheck($child)) {
+                    throw new Error('Can only append strings / convertible to string');
+                } else {
+                    $this->children[] = $child;
+                }
+            }
+        );
+        return $this;
+    }
+
+    public function ___(...$children): self
+    {
+        if ($this->self_closure) {
+            $tag = $this->pure_tag;
+            throw new Error("Cannot append child to self closing elements $tag");
+        }
+
+        \array_walk_recursive(
+            $children,
+            function ($child) {
+
+                if ($child instanceof Closure) {
+                    $child = \call_user_func($child);
+                    $this->___($child);
                     return;
                 }
 
@@ -163,7 +194,7 @@ class Component
 
     public function __invoke(...$children): self
     {
-        $this->append($children);
+        $this->___($children);
         return $this;
     }
 
