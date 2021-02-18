@@ -21,7 +21,7 @@ There are two main classes:
 
     This is the factory, use static magic calls to create components.
     You can then chain magic calls on the component to create the component attributes
-    and the method 'append' to add children
+    and the method '___' to add children
 
 ### example:
 
@@ -33,7 +33,7 @@ echo Pure::h3()
     ->id('my-first-pure-component')
     ->class('badge badge-primary')
     ->my_custom_prop('pure')
-    ->append('Hello World!');
+    ->___('Hello World!');
 
 ```
 
@@ -55,10 +55,10 @@ echo Pure::h3()
 
 echo Pure::div()
     ->class('container')
-    ->append(
+    ->___(
         Pure::p()
             ->class('inner')
-            ->append("I'm nested !")
+            ->___("I'm nested !")
     );
 
 ```
@@ -89,7 +89,7 @@ class Select extends Component {
         $this
             ->class('form__select')         //add class attribute = 'form__select'
             ->name( $name )                 //assign attribute name with passed $name in constructor
-            ->append($children);            //append children
+            ->___($children);               //append children
     }
 }
 
@@ -103,13 +103,13 @@ class Option extends Component
             ->class('form__option')         //add class attribute = 'form__option'
             ->value($value ?? false)        //add value attribute if it is defined, otherwise no value attribute
             ->disabled($disabled)           //add disabled attribute if necessary
-            ->append($label);               //append label inside in inner html
+            ->___($label);                  //append label inside in inner html
     }
 }
 
 echo Pure::form()
     ->id('select-form')
-    ->append(
+    ->___(
         new Select('user-preference', [
             new Option( 'Select your preference', null, true ),
             new Option( 'A is the best', 'a' ),
@@ -149,7 +149,7 @@ class DefaultPageView extends Component
     public function __construct(...$inner_content)
     {
         parent::__construct('html');
-        $this->append(
+        $this->___(
             new PageHead(),
             Pure::body(
                 new HeaderView(),
@@ -174,17 +174,17 @@ class GridView extends Component
         parent::__construct('div');
         $this
             ->id('grid')
-            ->append($tiles);
+            ->___($tiles);
     }
 
-    //overwrite append class in order to abstract a grid specific structure, each child is a div with a specific class
-    public function append(...$children): self
+    //overwrite ___ method in order to abstract a grid specific structure, each child is a div with a specific class
+    public function ___(...$children): self
     {
         foreach ($children as $child) {
-            parent::__append(
+            parent::__(
                 Pure::div()
                     ->class('grid_child')
-                    ->append($child)
+                    ->___($child)
             );
         }
     }
@@ -200,10 +200,10 @@ class ProductView extends Component
         $this
             ->class('product__tile')                //add class
             ->data_product_id($product['id'])       //add custom attribute
-            ->append(
+            ->___(
                 Pure::h1()                          //first child, the title
                     ->class('product__tile_title')
-                    ->append($product['name']),
+                    ->___($product['name']),
                 Pure::img()                         //second child, the image
                     ->class('product__tile_img')
                     ->src($product['imgURL'])
@@ -211,7 +211,7 @@ class ProductView extends Component
                 Pure::span()                        //third child, the price
                     ->class('product__tile_price tag')
                     ->class($product['promotion'] ? 'product__tile_price--promotion' : 'product__tile_price--no-promotion') //conditionally load class
-                    ->append("USD $product->price"),
+                    ->___("USD $product->price"),
             );
     }
 }
