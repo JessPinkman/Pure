@@ -40,6 +40,7 @@ class Component
 
     protected $children = [];
 
+    public ?self $parent = null;
 
     public function __construct(string $tag)
     {
@@ -66,6 +67,7 @@ class Component
                 if (!$this->pureStringCheck($child)) {
                     throw new Error('Can only append strings / convertible to string');
                 } else {
+                    $child instanceof self && $child->parent = $this;
                     $this->children[] = $child;
                 }
             }
