@@ -227,4 +227,16 @@ class Component
     {
         return $item instanceof Component || is_string((string) $item);
     }
+
+    public function pureAccess(string $object, $request): self
+    {
+        if (isset($this->$object) && $this->$object instanceof self) {
+            $request instanceof Closure
+                ? $request($this->$object)
+                : $this->$object->___($request);
+        } else {
+            throw new Error("$object is not set or not a Component");
+        }
+        return $this;
+    }
 }
