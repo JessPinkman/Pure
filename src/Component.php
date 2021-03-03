@@ -197,7 +197,7 @@ class Component
 
     public function __invoke(...$children): self
     {
-        $this->___($children);
+        $this->___(...$children);
         return $this;
     }
 
