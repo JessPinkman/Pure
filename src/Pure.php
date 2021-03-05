@@ -9,6 +9,8 @@ namespace Pure;
  * @method static Component ul
  * @method static Component ol
  * @method static Component li
+ * @method static Component a
+ * @method static Component html
  * @method static Component h1
  * @method static Component h2
  * @method static Component h3
@@ -60,5 +62,10 @@ class Pure
     public static function pureComment($comment): string
     {
         return "<!-- $comment -->";
+    }
+
+    public static function html(): HTML
+    {
+        return new HTML;
     }
 }
