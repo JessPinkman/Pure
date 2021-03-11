@@ -7,6 +7,8 @@ Library to create, use and reuse components to generate html.
 - Create complexe structures that you can interact with by extending the class.
 - Makes your code very clean and readable.
 
+**Also check [BSPure](https://github.com/JessPinkman/BSPure), an extension to use Bootstrap components.**
+
 # How
 
 There are two main classes:
