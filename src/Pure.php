@@ -2,6 +2,8 @@
 
 namespace Pure;
 
+use Error;
+
 /**
  * @method static Component div
  * @method static Component p
@@ -24,6 +26,9 @@ namespace Pure;
  */
 class Pure
 {
+
+    protected static string $view_folder;
+
     public static function __callStatic(string $tag, array $children): Component
     {
         $component = new Component($tag);
@@ -67,5 +72,20 @@ class Pure
     public static function html(): HTML
     {
         return new HTML;
+    }
+
+    public static function setViewFolderRoot(string $path)
+    {
+        self::$view_folder = rtrim($path, '/\\');
+    }
+
+    public static function getView(string $path, ?array $args = null): Component
+    {
+        if (!self::$view_folder) {
+            throw new Error("Pure View path is missing");
+        }
+        $path = self::$view_folder . DIRECTORY_SEPARATOR . str_replace('.', DIRECTORY_SEPARATOR, $path) . '.php';
+        $args && extract($args);
+        return require $path;
     }
 }
