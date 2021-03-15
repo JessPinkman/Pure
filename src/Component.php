@@ -151,7 +151,12 @@ class Component
 
     public function __call($key, $args): self
     {
+
         $key = str_replace('_', '-', $key);
+
+        if (strtoupper($key) == $key) {
+            return $this->pureAccess(strtolower($key), ...$args);
+        }
 
         if (!isset($this->attributes[$key])) {
             $this->attributes[$key] = [];
