@@ -42,6 +42,10 @@ class Component
 
     public ?self $parent = null;
 
+    protected ?string $drill_id = null;
+
+    protected ?Component $drill_fallback = null;
+
     public function __construct(string $tag)
     {
         $this->setPureTag($tag);
@@ -243,5 +247,43 @@ class Component
             throw new Error("$object is not set or not a Component");
         }
         return $this;
+    }
+
+    public function setDrillID(string $id): self
+    {
+        $this->drill_id = $id;
+        return $this;
+    }
+
+    public function endDrill(): Component
+    {
+        $fallback = $this->drill_fallback;
+        $this->drill_fallback = null;
+        return $fallback;
+    }
+
+    public function startDrill(string $id): ?self
+    {
+        $component = $this->getDrillChild($id);
+
+        if ($component) {
+            $component->drill_fallback = $this;
+            return $component;
+        } else {
+            return null;
+        }
+    }
+
+    protected function getDrillChild(string $id): ?self
+    {
+        $found = null;
+        array_walk($this->children, function ($child) use ($id, &$found) {
+            if ($child instanceof self && $child->drill_id === $id) {
+                $found = $child;
+            } elseif ($child instanceof self) {
+                $found = $child->getDrillChild($id);
+            }
+        });
+        return $found;
     }
 }
