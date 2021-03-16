@@ -158,9 +158,9 @@ class Component
 
         $key = str_replace('_', '-', $key);
 
-        if (strtoupper($key) == $key) {
-            return $this->pureAccess(strtolower($key), ...$args);
-        }
+        // if (strtoupper($key) == $key) {
+        //     return $this->pureAccess(strtolower($key), ...$args);
+        // }
 
         if (!isset($this->attributes[$key])) {
             $this->attributes[$key] = [];
@@ -237,17 +237,17 @@ class Component
         return $item instanceof Component || is_string((string) $item);
     }
 
-    public function pureAccess(string $object, $request): self
-    {
-        if (isset($this->$object) && $this->$object instanceof self) {
-            $request instanceof Closure
-                ? $request($this->$object)
-                : $this->$object->___($request);
-        } else {
-            throw new Error("$object is not set or not a Component");
-        }
-        return $this;
-    }
+    // public function pureAccess(string $object, $request): self
+    // {
+    //     if (isset($this->$object) && $this->$object instanceof self) {
+    //         $request instanceof Closure
+    //             ? $request($this->$object)
+    //             : $this->$object->___($request);
+    //     } else {
+    //         throw new Error("$object is not set or not a Component");
+    //     }
+    //     return $this;
+    // }
 
     public function setDrillID(string $id): self
     {
