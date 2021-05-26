@@ -10,7 +10,7 @@ class Fragment extends Component
     public function __construct(...$children)
     {
         foreach ($children as $child) {
-            $this->append($child);
+            $this($child);
         }
     }
 
@@ -24,7 +24,7 @@ class Fragment extends Component
         return $html;
     }
 
-    public function __call($key, $args): self
+    public function __call($key, $args): static
     {
         throw new Error("method $key not found, cannot set attributes for Fragments");
         return $this;

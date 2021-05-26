@@ -40,8 +40,6 @@ class Component
 
     protected $children = [];
 
-    public ?self $parent = null;
-
     public function __construct(string $tag)
     {
         $this->setPureTag($tag);
@@ -51,7 +49,7 @@ class Component
      *
      * @deprecated
      */
-    public function append(...$children): self
+    public function append(...$children): static
     {
         if ($this->self_closure) {
             $tag = $this->pure_tag;
@@ -71,15 +69,14 @@ class Component
                 if (!$this->pureStringCheck($child)) {
                     throw new Error('Can only append strings / convertible to string');
                 } else {
-                    $child instanceof self && $child->parent = $this;
-                    $this->children[] = $child;
+                    $this->children[] = $child instanceof self ? $child : htmlentities($child);
                 }
             }
         );
         return $this;
     }
 
-    public function ___(...$children): self
+    public function ___(...$children): static
     {
         if ($this->self_closure) {
             $tag = $this->pure_tag;
@@ -99,7 +96,6 @@ class Component
                 if (!$this->pureStringCheck($child)) {
                     throw new Error('Can only append strings / convertible to string');
                 } else {
-                    $child instanceof self && $child->parent = $this;
                     $this->children[] = $child;
                 }
             }
@@ -135,7 +131,7 @@ class Component
         return $html;
     }
 
-    public function setPureTag(string $tag): self
+    public function setPureTag(string $tag): static
     {
         $this->pure_tag = $tag;
 
@@ -149,7 +145,7 @@ class Component
         return $this;
     }
 
-    public function __call($key, $args): self
+    public function __call($key, $args): static
     {
 
         $key = str_replace('_', '-', $key);
@@ -175,7 +171,7 @@ class Component
         return $this;
     }
 
-    public function setAttrs(array $attrs): self
+    public function setAttrs(array $attrs): static
     {
         foreach ($attrs as $attr => $val) {
             $this->$attr($val);
@@ -196,7 +192,7 @@ class Component
         }
     }
 
-    public function __invoke(...$children): self
+    public function __invoke(...$children): static
     {
         $this->___(...$children);
         return $this;
@@ -229,7 +225,7 @@ class Component
         return $item instanceof Component || is_string((string) $item);
     }
 
-    public function pureAccess(string $object, $request): self
+    public function pureAccess(string $object, $request): static
     {
         if (isset($this->$object) && $this->$object instanceof self) {
             $request instanceof Closure
