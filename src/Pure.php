@@ -3,6 +3,8 @@
 namespace Pure;
 
 use Error;
+use Exception;
+use Stringable;
 
 /**
  * @method static Component a
@@ -126,7 +128,7 @@ class Pure
     {
         $component = new Component($tag);
         if (count($children)) {
-            $component->___($children);
+            $component($children);
         }
         return $component;
     }
@@ -136,15 +138,6 @@ class Pure
         ob_start();
         \call_user_func($func, ...$args);
         return \ob_get_clean();
-    }
-
-    public static function pureFrom(string $tag, ?array $children = null): Component
-    {
-        $component = new Component($tag);
-        if (count($children)) {
-            $component->___($children);
-        }
-        return $component;
     }
 
     public static function pureOpen($tag): string
@@ -162,9 +155,9 @@ class Pure
         return "<!-- $comment -->";
     }
 
-    public static function html(): HTML
+    public static function html(Stringable | string| array ...$children): HTML
     {
-        return new HTML;
+        return new HTML(...$children);
     }
 
     public static function setViewFolderRoot(string $path)
@@ -178,6 +171,9 @@ class Pure
             throw new Error("Pure View path is missing");
         }
         $path = self::$view_folder . DIRECTORY_SEPARATOR . str_replace('.', DIRECTORY_SEPARATOR, $path) . '.php';
+        if (!file_exists($path)) {
+            throw new Exception("file $path not found");
+        }
         $args && extract($args);
         return require $path;
     }

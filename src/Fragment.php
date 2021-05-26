@@ -3,15 +3,14 @@
 namespace Pure;
 
 use Error;
+use Stringable;
 
 class Fragment extends Component
 {
 
-    public function __construct(...$children)
+    public function __construct(Stringable| string | array ...$children)
     {
-        foreach ($children as $child) {
-            $this($child);
-        }
+        $this(...$children);
     }
 
     public function __toString(): string

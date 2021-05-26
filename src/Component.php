@@ -4,6 +4,7 @@ namespace Pure;
 
 use Closure;
 use Error;
+use Stringable;
 
 /**
  * Class to create markup elements that can be structured with nesting.
@@ -34,22 +35,16 @@ class Component
 
     private $self_closure = false;
 
-    public $pure_tag;
-
     protected $attributes = [];
 
     protected $children = [];
 
-    public function __construct(string $tag)
-    {
-        $this->setPureTag($tag);
+    public function __construct(
+        public string $pure_tag
+    ) {
     }
 
-    /**
-     *
-     * @deprecated
-     */
-    public function append(...$children): static
+    public function ___(Stringable | string | array ...$children): static
     {
         if ($this->self_closure) {
             $tag = $this->pure_tag;
@@ -62,42 +57,11 @@ class Component
 
                 if ($child instanceof Closure) {
                     $child = \call_user_func($child);
-                    $this->___($child);
+                    $this($child);
                     return;
                 }
 
-                if (!$this->pureStringCheck($child)) {
-                    throw new Error('Can only append strings / convertible to string');
-                } else {
-                    $this->children[] = $child instanceof self ? $child : htmlentities($child);
-                }
-            }
-        );
-        return $this;
-    }
-
-    public function ___(...$children): static
-    {
-        if ($this->self_closure) {
-            $tag = $this->pure_tag;
-            throw new Error("Cannot append child to self closing elements $tag");
-        }
-
-        \array_walk_recursive(
-            $children,
-            function ($child) {
-
-                if ($child instanceof Closure) {
-                    $child = \call_user_func($child);
-                    $this->___($child);
-                    return;
-                }
-
-                if (!$this->pureStringCheck($child)) {
-                    throw new Error('Can only append strings / convertible to string');
-                } else {
-                    $this->children[] = $child;
-                }
+                $this->children[] = $child instanceof self ? $child : htmlentities($child);
             }
         );
         return $this;
@@ -192,7 +156,7 @@ class Component
         }
     }
 
-    public function __invoke(...$children): static
+    public function __invoke(Stringable | string | array ...$children): static
     {
         $this->___(...$children);
         return $this;
@@ -215,14 +179,12 @@ class Component
         return "</$this->pure_tag>";
     }
 
+    /**
+     * original: See context class for arguments
+     */
     public static function render(...$args)
     {
         return new static(...$args);
-    }
-
-    protected function pureStringCheck($item): bool
-    {
-        return $item instanceof Component || is_string((string) $item);
     }
 
     public function pureAccess(string $object, $request): static

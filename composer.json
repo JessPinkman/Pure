@@ -4,7 +4,7 @@
   "license": "MIT",
   "description": "Create HTML Markups without HTML code, easily nest elements and set attributes",
   "require": {
-    "php": "^7.4 | ^8.0"
+    "php": "^8.0"
   },
   "authors": [
     {
