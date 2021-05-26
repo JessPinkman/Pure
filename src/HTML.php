@@ -7,7 +7,7 @@ use Stringable;
 class HTML extends Component
 {
 
-    public function __construct(Stringable | string| array ...$children)
+    public function __construct(Stringable | string| array | null ...$children)
     {
         parent::__construct('html');
         $this(...$children);

@@ -155,7 +155,7 @@ class Pure
         return "<!-- $comment -->";
     }
 
-    public static function html(Stringable | string| array ...$children): HTML
+    public static function html(Stringable | string| array | null ...$children): HTML
     {
         return new HTML(...$children);
     }

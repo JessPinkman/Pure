@@ -8,7 +8,7 @@ use Stringable;
 class Fragment extends Component
 {
 
-    public function __construct(Stringable| string | array ...$children)
+    public function __construct(Stringable | string| array | null ...$children)
     {
         $this(...$children);
     }
