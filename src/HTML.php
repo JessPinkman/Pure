@@ -9,7 +9,8 @@ class HTML extends Component
 
     public function __construct(Stringable | string| array ...$children)
     {
-        parent::__construct('html')(...$children);
+        parent::__construct('html');
+        $this(...$children);
     }
 
     public function __toString(): string
