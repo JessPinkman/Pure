@@ -39,6 +39,8 @@ class Component
 
     protected $children = [];
 
+    protected array $pure_props = [];
+
     public function __construct(
         public string $pure_tag
     ) {
@@ -179,15 +181,12 @@ class Component
         return "</$this->pure_tag>";
     }
 
-    /**
-     * original: See context class for arguments
-     */
-    public static function render(...$args)
+    public static function render(...$args): static
     {
         return new static(...$args);
     }
 
-    public function pureAccess(string $object, $request): static
+    public function pureAccess(string $object, Stringable|string|array|Closure|null $request): static
     {
         if (isset($this->$object) && $this->$object instanceof self) {
             $request instanceof Closure
