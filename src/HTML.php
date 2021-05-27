@@ -2,12 +2,13 @@
 
 namespace Pure;
 
+use Closure;
 use Stringable;
 
 class HTML extends Component
 {
 
-    public function __construct(Stringable | string| array | null ...$children)
+    public function __construct(Stringable|string|array|Closure|null ...$children)
     {
         parent::__construct('html');
         $this(...$children);

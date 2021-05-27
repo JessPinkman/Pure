@@ -2,6 +2,7 @@
 
 namespace Pure;
 
+use Closure;
 use Error;
 use Exception;
 use Stringable;
@@ -155,7 +156,7 @@ class Pure
         return "<!-- $comment -->";
     }
 
-    public static function html(Stringable | string| array | null ...$children): HTML
+    public static function html(Stringable|string|array|Closure|null ...$children): HTML
     {
         return new HTML(...$children);
     }

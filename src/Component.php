@@ -44,7 +44,7 @@ class Component
     ) {
     }
 
-    public function ___(Stringable | string| array | null ...$children): static
+    public function ___(Stringable|string|array|Closure|null ...$children): static
     {
         if ($this->self_closure) {
             $tag = $this->pure_tag;
@@ -156,7 +156,7 @@ class Component
         }
     }
 
-    public function __invoke(Stringable | string| array | null ...$children): static
+    public function __invoke(Stringable|string|array|Closure|null ...$children): static
     {
         $this->___(...$children);
         return $this;
